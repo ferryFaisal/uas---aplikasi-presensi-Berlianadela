@@ -28,7 +28,7 @@ $result = mysqli_query($conn, $sql);
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin-Dashboard</title>
+  <title>Admin</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -105,7 +105,7 @@ if ($cek2 > 0) {
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="Admin.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span>
         </a>
@@ -131,7 +131,13 @@ if ($cek2 > 0) {
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Data Mahasiswa</span></a>
       </li>
+      <li class="nav-item ">
+                <a class="nav-link" href="tables_user.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Table Users</span></a>
+            </li>
     </ul>
+    
 
     <div id="content-wrapper">
 
@@ -141,13 +147,12 @@ if ($cek2 > 0) {
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="#">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">Overview</li>
+</li>
         </ol>
 
         <!-- Icon Cards-->
         <div class="row">
-          <div class="col-l-3 col-sm-4 mb-2">
+          <div class="col-l-3 col-sm-4 mb-1">
             <div class="card text-white bg-primary o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
@@ -156,6 +161,24 @@ if ($cek2 > 0) {
                 <div class="mr-5">Data Mahasiswa</div>
               </div>
               <a class="card-footer text-white clearfix small z-1" href="mahasiswa.php">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+          </div>
+          <div class="row">
+          <div class="col-l-3 col-sm-4 mb-2">
+            <div class="card text-white bg-warning o-hidden h-100">
+              <div class="card-body">
+                <div class="card-body-icon">
+                  <i class="fas fa-fw fa-comments"></i>
+                </div>
+                <div class="mr-5">Table User</div>
+              </div>
+              <a class="card-footer text-white clearfix small z-1" href="tables_user.php">
                 <span class="float-left">View Details</span>
                 <span class="float-right">
                   <i class="fas fa-angle-right"></i>
@@ -223,27 +246,43 @@ if ($cek2 > 0) {
             Data Mahasiswa</div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" height="10% cellspacing="0>
+              <table class="table table-bordered" id="dataTable" width="100%" height="10% cellspacing="0">
                 <thead>
                   <tr>
+                    <th>No</th>
                     <th>NIM</th>
                     <th>Nama</th>
                     <th>Kelas</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
-                <tfoot>
-                  <tr>
-                    <th>NIM</th>
-                    <th>Nama</th>
-                    <th>Kelas</th>
-                  </tr>
-                </tfoot>
                 <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+                <?php
+                    $query = "SELECT * FROM mahasiswa ORDER BY nim ASC";
+                    $result = mysqli_query($conn, $query);
+                    if(!$result){
+                      die ("Query Error: ".mysqli_errno($conn).
+                         " - ".mysqli_error($conn));
+                    }
+                    $no = 1;
+                    while($row = mysqli_fetch_assoc($result))
+                    {
+                    ?>
+                     <tr>
+                        <td><?php echo $no; ?></td>
+                        <td><?php echo $row['nama']; ?></td>
+                        <td><?php echo $row['nim']; ?></td>
+                        <td><?php echo $row['kelas'] ?></td>
+                        <td>
+                          <a href="admin_mahasiswa_edit.php?id=<?php echo $row['nim']; ?>">Edit</a> |
+                          <a href="proses_hapus.php?id=<?php echo $row['nim']; ?>" onclick="return confirm('Anda yakin akan menghapus data ini?')">Hapus</a>
+                        </td>
+                    </tr>
+                       
+                    <?php
+                      $no++; 
+                    }
+                    ?>
                 </tbody>
               </table>
             </div>
@@ -287,7 +326,7 @@ if ($cek2 > 0) {
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="\WebProgramming/uas---aplikasi-presensi-JOELLYZX/index.php">Logout</a>
+          <a class="btn btn-primary" href="\WebProgramming/uas---aplikasi-presensi-AbangMuhammadFajar/index.php">Logout</a>
         </div>
       </div>
     </div>
